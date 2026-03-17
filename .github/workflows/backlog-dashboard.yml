@@ -1,0 +1,6 @@
+.github/workflows/backlog-dashboard.yml
+scripts/
+  fetch_issues.py
+  generate_dashboard.py
+docs/
+  index.html   (auto-generated)
