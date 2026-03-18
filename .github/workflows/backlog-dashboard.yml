@@ -1,6 +1,38 @@
-.github/workflows/backlog-dashboard.yml
-scripts/
-  fetch_issues.py
-  generate_dashboard.py
-docs/
-  index.html   (auto-generated)
+name: Backlog Dashboard
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+jobs:
+  build-dashboard:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install pandas requests
+
+      - name: Fetch issues
+        run: python scripts/fetch_issues.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate dashboard
+        run: python scripts/generate_dashboard.py
+
+      - name: Commit dashboard
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add docs/index.html
+          git commit -m "Update dashboard" || echo "No changes"
+          git push
