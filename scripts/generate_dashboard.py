@@ -1,17 +1,26 @@
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timezone
 
+# Load data
 df = pd.read_csv("issues.csv")
 
-df["created_at"] = pd.to_datetime(df["created_at"])
-df["age_days"] = (datetime.now() - df["created_at"]).dt.days
+# Convert to datetime (make it timezone-aware)
+df["created_at"] = pd.to_datetime(df["created_at"], utc=True)
 
+# Use timezone-aware current time
+now = datetime.now(timezone.utc)
+
+# Calculate age in days
+df["age_days"] = (now - df["created_at"]).dt.days
+
+# Metrics
 total_issues = len(df)
 avg_age = round(df["age_days"].mean(), 1) if total_issues > 0 else 0
 oldest = df.sort_values("age_days", ascending=False).head(5)
 
 assignees = df["assignee"].value_counts()
 
+# Generate HTML
 html = f"""
 <html>
 <head>
@@ -34,6 +43,7 @@ html = f"""
 </html>
 """
 
+# Save dashboard
 with open("docs/index.html", "w") as f:
     f.write(html)
 
