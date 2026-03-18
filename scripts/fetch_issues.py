@@ -5,7 +5,7 @@ import pandas as pd
 
 TOKEN = os.environ.get("GITHUB_TOKEN", "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")
 OWNER = "LaNES288"
-NAME = "DEMO"
+REPO = "DEMO"
 
 headers = {
     "Authorization": f"token {TOKEN}"
