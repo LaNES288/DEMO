@@ -1,6 +1,7 @@
 name: Backlog Dashboard
 
-workflow_dispatch:
+on:
+  workflow_dispatch:
 
 permissions:
   contents: write
