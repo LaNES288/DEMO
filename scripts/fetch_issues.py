@@ -11,7 +11,7 @@ headers = {
     "Authorization": f"token {TOKEN}"
 }
 
-url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues?state=open&labels=status: backlog"
+url = f"https://api.github.com/repos/{OWNER}/{REPO}/issues?state=open&labels=status:backlog"
 
 response = requests.get(url, headers=headers)
 issues = response.json()
