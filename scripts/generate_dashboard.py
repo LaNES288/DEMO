@@ -29,8 +29,11 @@ df["age_bucket"] = pd.cut(df["age_days"], bins=bins, labels=labels)
 
 age_dist = df["age_bucket"].value_counts().sort_index()
 
+assignee_labels = list(assignees.index)
+assignee_values = [int(x) for x in assignees.values]
+
 age_labels = list(age_dist.index.astype(str))
-age_values = list(age_dist.values)
+age_values = [int(x) for x in age_dist.values]
 
 # HTML Dashboard
 html = f"""
